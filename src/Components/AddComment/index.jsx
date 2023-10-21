@@ -2,7 +2,7 @@ import React from "react";
 
 import { TextField, Avatar, Button } from "@mui/material";
 
-import styles from "./AddComment.scss";
+import styles from "./AddComment.module.scss";
 
 export const Index = () => {
   return (

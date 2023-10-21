@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 
-import styles from './AddPost.scss';
+import styles from './AddPost.module.scss';
 
 export const AddPost = () => {
   const imageUrl = '';

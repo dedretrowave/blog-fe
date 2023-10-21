@@ -8,7 +8,7 @@ import {
   Avatar
 } from "@mui/material";
 
-import styles from "./Register.scss";
+import styles from "./Register.module.scss";
 
 export const Register = () => {
   return (

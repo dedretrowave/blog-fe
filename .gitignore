@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 /.pnp
+/.idea
+package-lock.json
+yarn.lock
 .pnp.js
 
 # testing

@@ -5,24 +5,44 @@ import {
   Index,
   CommentsBlock
 } from "../Components";
+import globalSettings from "../Settings/globalSettings";
 
 export const PostPage = () => {
+  const [ post, setPost ] = React.useState({});
+  const [ isPostLoaded, setIsPostLoaded ] = React.useState(false);
+
+  React.useEffect(() => {
+    const id = window.location.href.split('/').pop();
+
+    fetch(`${globalSettings.BASE_URL}/posts/${id}`, {method: 'get'})
+      .then(data => data.json())
+      .then(data => {
+        setPost(data.post);
+        setIsPostLoaded(true);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, [setPost, setIsPostLoaded]);
+
   return (
     <>
-      <Post id={1}
-            title="Sample Post"
-            imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
-            user={{avatarUrl:"https://res.cloudinary.com/practicaldev/image/fetch/s--uigxYVRB--/c_fill,f_auto,fl_progressive,h_50,q_auto,w_50/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png"}}
-            createdAt="12 july 2022"
-            viewsCount={150}
-            commentsCount={3}
-            tags={["react","fun","typescript"]}
-            isFullPost
-      >
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus dolores facilis incidunt mollitia natus nemo odit officiis quae reiciendis vitae!
-        </p>
-      </Post>
+      {isPostLoaded ? (
+        <Post id={post.id}
+              title={post.title}
+              imageUrl={post.imageUrl}
+              user={post.author}
+              createdAt={post.createdAt}
+              viewsCount={post.viewsCount}
+              commentsCount={2}
+              tags={post.tags}
+              isFullPost
+        >
+          <p>
+            {post.text}
+          </p>
+        </Post>
+      ) : (<Post isLoading/>)}
       <CommentsBlock items={[
         {
           user: {
