@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import {Navigate} from "react-router-dom";
 import {useDispatch, useSelector } from "react-redux";
 
-import {fetchUser, isLoggedIn} from "../../redux/slices/user";
+import { fetchUser, isLoggedIn,  } from "../../redux/slices/user";
 
 import {
   Typography,
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import styles from "./Login.module.scss";
+import globalSettings from "../../Settings/globalSettings";
 
 export const Login = () => {
   const isLogin = useSelector(isLoggedIn);
@@ -30,8 +31,17 @@ export const Login = () => {
     }
   });
 
-  const onSubmit = (values) => {
-    dispatch(fetchUser(values));
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchUser(values));
+
+    if (data.payload.token) {
+      window
+        .localStorage
+        .setItem(
+          globalSettings.LOCAL_STORAGE_TOKEN_PATH,
+          data.payload.token
+        );
+    }
   }
 
   if (isLogin) {

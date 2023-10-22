@@ -1,7 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Container } from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import { fetchToken, isLoggedIn } from "./redux/slices/user";
 
+import { Container } from "@mui/material";
 import { Header } from "./Components";
 import {
   Home,
@@ -12,6 +14,13 @@ import {
 } from "./Pages";
 
 function App() {
+  const dispatch = useDispatch();
+  const loggedIn = useSelector(isLoggedIn);
+
+  React.useEffect(() => {
+    dispatch(fetchToken());
+  }, []);
+
   return (
     <>
       <Header/>

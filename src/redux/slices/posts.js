@@ -1,18 +1,16 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import globalSettings from "../../Settings/globalSettings";
+import axios from "../../Utils/axios";
 
 export const fetchPosts =
   createAsyncThunk('posts/fetchPosts', async () => {
-  let data = await fetch(`${globalSettings.BASE_URL}/posts`, {method: 'get'});
-  data = await data.json();
+  const { data } = await axios.get('/posts');
 
   return data;
 });
 
 export const fetchTags =
   createAsyncThunk('posts/getTags', async () => {
-  let data = await fetch(`${globalSettings.BASE_URL}/posts/tags`, {method: 'get'});
-  data = await data.json();
+  const { data } = await axios.get(`/posts/tags`);
 
   return data;
 })
