@@ -3,10 +3,16 @@ import axios from "../../Utils/axios";
 
 
 export const fetchUser =
-  createAsyncThunk('user/fetchUsers', async (loginData) => {
+  createAsyncThunk('user/fetchUser', async (loginData) => {
     const { data } = await axios.post(`/auth/login`, loginData);
     return data;
-})
+});
+
+export const createUser =
+    createAsyncThunk('user/createUser', async (registerData) => {
+      const { data } = await axios.post('/auth/register', registerData);
+      return data;
+    });
 
 export const fetchToken =
   createAsyncThunk('user/fetchToken', async (authToken) => {
@@ -53,6 +59,20 @@ const userSlice = createSlice({
         state.status = 'loaded';
       })
       .addCase(fetchToken.rejected, (state) => {
+        state.data = null;
+        state.status = 'error';
+      })
+
+
+      .addCase(createUser.pending, (state) => {
+        state.data = null;
+        state.status = 'loading';
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.data = action.payload.user;
+        state.status = 'loaded';
+      })
+      .addCase(createUser.rejected, (state) => {
         state.data = null;
         state.status = 'error';
       })
