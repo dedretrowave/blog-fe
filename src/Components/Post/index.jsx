@@ -11,6 +11,8 @@ import {UserInfo} from "../UserInfo";
 import {PostSkeleton} from "./PostSkeleton";
 
 import styles from "./Post.module.scss";
+import {useDispatch} from "react-redux";
+import {deletePost} from "../../redux/slices/posts";
 
 export const Post = ({
   _id,
@@ -26,13 +28,22 @@ export const Post = ({
   isEditable,
   children
 }) => {
+  const [ isDeleted, setIsDeleted ] = React.useState(false);
+  const dispatch = useDispatch();
+
   if (isLoading) {
     return <PostSkeleton/>
   }
 
-  const onClickRemove = () => {};
+  const onClickRemove = async () => {
+    const response = await dispatch(deletePost(_id));
 
-  return (
+    setIsDeleted(response.payload?.success);
+  };
+
+  return isDeleted ?
+    (<div></div>)
+    : (
     <div className={clsx(styles.root, {[styles.rootFull]: isFullPost})}>
       {isEditable && (
         <div className={styles.editButtons}>

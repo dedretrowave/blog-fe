@@ -10,7 +10,6 @@ instance.interceptors.request.use((config) => {
     ...config.headers,
     Authorization: localStorage
       .getItem(globalSettings.LOCAL_STORAGE_TOKEN_PATH),
-    'Content-Type': "application/json",
   }
 
   return config;

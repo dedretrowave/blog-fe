@@ -71,7 +71,9 @@ export const Register = () => {
   const uploadImage = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
+    console.log(file);
     formData.append('image', file);
+    console.log(formData.get('image'));
 
     const { data } = await axios.post('/upload', formData);
 

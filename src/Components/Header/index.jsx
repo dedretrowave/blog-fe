@@ -37,7 +37,7 @@ export const Header = () => {
                 {isUserLoaded ?
                   <UserInfo {...user.data}/>
                 : ""}
-                <a href="/posts/create">
+                <a href="/add-post">
                   <Button variant="contained">Write an article</Button>
                 </a>
                 <Button variant="contained" onClick={onClickLogout} color={"error"}>
