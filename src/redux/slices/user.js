@@ -4,19 +4,26 @@ import axios from "../../Utils/axios";
 
 export const fetchUser =
   createAsyncThunk('user/fetchUser', async (loginData) => {
-    const { data } = await axios.post(`/auth/login`, loginData);
+    const data =
+      await axios.post(`/auth/login`, loginData)
+        .then(response => response.data)
+        .catch(err => err.response.data);
     return data;
 });
 
 export const createUser =
     createAsyncThunk('user/createUser', async (registerData) => {
-      const { data } = await axios.post('/auth/register', registerData);
+      const data = await axios.post('/auth/register', registerData)
+        .then(response => response.data)
+        .catch(err => err.response.data);
       return data;
     });
 
 export const fetchToken =
   createAsyncThunk('user/fetchToken', async (authToken) => {
-    const { data } = await axios.get('/auth/me');
+    const data = await axios.get('/auth/me')
+      .then(response => response.data)
+      .catch(err => err.response.data);
 
     return data;
   })
@@ -44,7 +51,7 @@ const userSlice = createSlice({
         state.data = action.payload.user;
         state.status = 'loaded';
       })
-      .addCase(fetchUser.rejected, (state) => {
+      .addCase(fetchUser.rejected, (state, action) => {
         state.data = null;
         state.status = 'error';
       })

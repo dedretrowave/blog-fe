@@ -28,7 +28,7 @@ export const Register = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email: '',
@@ -45,13 +45,22 @@ export const Register = () => {
     };
     const data = await dispatch(createUser(values));
 
-    if (data.payload.token) {
+    if (data.payload?.token) {
         window
             .localStorage
             .setItem(
                 globalSettings.LOCAL_STORAGE_TOKEN_PATH,
                 data.payload.token,
             );
+    }
+
+    if (!data.payload?.success) {
+      data.payload.errors.forEach(error => {
+        setError(error.path, {
+          type: 'custom',
+          message: error.msg,
+        })
+      });
     }
   }
 

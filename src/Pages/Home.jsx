@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import {fetchPosts, fetchTags} from "../redux/slices/posts";
-import {getPosts} from "../redux/slices/user";
+import {getPosts, getUser} from "../redux/slices/user";
 
 import {
   Tab,
@@ -19,6 +19,7 @@ import {
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, tags } = useSelector(getPosts);
+  const user = useSelector(getUser);
 
   const isPostsLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
@@ -56,7 +57,7 @@ export const Home = () => {
                 createdAt={post.createdAt}
                 viewsCount={post.viewsCount}
                 tags={post.tags}
-                isEditable
+                isEditable={user.data && post.author._id === user.data._id}
               />
             )
           })}

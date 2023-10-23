@@ -23,7 +23,7 @@ export const Login = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email: '',
@@ -34,13 +34,20 @@ export const Login = () => {
   const onSubmit = async (values) => {
     const data = await dispatch(fetchUser(values));
 
-    if (data.payload.token) {
+    if (data.payload?.token) {
       window
         .localStorage
         .setItem(
           globalSettings.LOCAL_STORAGE_TOKEN_PATH,
           data.payload.token
         );
+    }
+
+    if (!data.payload?.success) {
+      setError('email', {
+        type: 'custom',
+        message: 'Incorrect email or password',
+      });
     }
   }
 

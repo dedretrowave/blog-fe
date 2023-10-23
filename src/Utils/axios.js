@@ -6,8 +6,12 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-  config.headers.Authorization = localStorage
-    .getItem(globalSettings.LOCAL_STORAGE_TOKEN_PATH);
+  config.headers = {
+    ...config.headers,
+    Authorization: localStorage
+      .getItem(globalSettings.LOCAL_STORAGE_TOKEN_PATH),
+    'Content-Type': "application/json",
+  }
 
   return config;
 });
