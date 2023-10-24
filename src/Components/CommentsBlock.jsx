@@ -28,7 +28,10 @@ export const CommentsBlock = ({
                   {isLoading ? (
                     <Skeleton variant="circular" width={40} height={40}/>
                   ) : (
-                    <Avatar alt={obj.user.fullName} src={obj.user.avatarUrl}/>
+                    <Avatar
+                      alt={obj.author.fullName}
+                      src={obj.author.avatarUrl}
+                    />
                   )}
                 </ListItemAvatar>
                 {isLoading ? (
@@ -37,7 +40,7 @@ export const CommentsBlock = ({
                     <Skeleton variant="text" height={18} width={230}/>
                   </div>
                 ) : (
-                  <ListItemText primary={obj.user.fullName} secondary={obj.text}/>
+                  <ListItemText primary={obj.author.fullName} secondary={obj.text}/>
                 )}
               </ListItem>
               <Divider variant="inset" component="li"/>

@@ -1,23 +1,65 @@
 import React from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchToken, getUser} from "../../redux/slices/user";
+import axios from "../../Utils/axios";
+import {useNavigate} from "react-router-dom";
 
 import { TextField, Avatar, Button } from "@mui/material";
 
 import styles from "./AddComment.module.scss";
+import noavatar from "../../Assets/noavatar.jpg";
 
-export const Index = () => {
+export const AddComment = ({postId, onAddComment}) => {
+  const navigateTo = useNavigate();
+  const [ text, setText ] = React.useState('');
+
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+
+  const isUserLoaded = user.status === 'loaded';
+
+  React.useEffect(() => {
+    dispatch(fetchToken());
+  }, [dispatch]);
+
+  const onPost = async () => {
+    try {
+      const body = {
+        text: text,
+        postId: postId,
+      }
+      const { data } = await axios.post('/comments', body);
+
+      if (data.success) {
+        onAddComment(data.comment);
+        setText('');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <div className={styles.root}>
-        <Avatar classes={{root: styles.avatar}} src="https://mui.com/static/images/avatar/5.jpg"/>
+        <Avatar
+          classes={{root: styles.avatar}}
+          src={isUserLoaded ? user.data.avatarUrl : noavatar}
+        />
         <div className={styles.form}>
           <TextField
             label="Write a comment"
             variant="outlined"
             maxRows={10}
+            value={text}
+            onChange={e => setText(e.target.value)}
             multiline
             fullWidth
           />
-          <Button variant="contained">Post</Button>
+          <Button
+            onClick={onPost}
+            variant="contained"
+          >Post</Button>
         </div>
       </div>
     </>

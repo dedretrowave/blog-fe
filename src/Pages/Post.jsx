@@ -2,7 +2,7 @@ import React from "react";
 
 import {
   Post,
-  Index,
+  AddComment,
   CommentsBlock
 } from "../Components";
 import globalSettings from "../Settings/globalSettings";
@@ -25,10 +25,21 @@ export const PostPage = () => {
       })
   }, [setPost, setIsPostLoaded]);
 
+  const onAddComment = (comment) => {
+    setPost({
+      ...post,
+      comments: [
+        ...post.comments,
+        comment,
+      ]
+    });
+  }
+
   return (
     <>
       {isPostLoaded ? (
-        <Post id={post.id}
+        <>
+        <Post _id={post._id}
               title={post.title}
               imageUrl={post.imageUrl}
               user={post.author}
@@ -42,26 +53,15 @@ export const PostPage = () => {
             {post.text}
           </p>
         </Post>
+        <CommentsBlock items={post.comments}
+                       isLoading={false}>
+          <AddComment
+            postId={post._id}
+            onAddComment={onAddComment}
+          />
+        </CommentsBlock>
+        </>
       ) : (<Post isLoading/>)}
-      <CommentsBlock items={[
-        {
-          user: {
-            fullName: "Vladimir Putin",
-            avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
-          },
-          text: "Test comment",
-        },
-        {
-          user: {
-            fullName: "Иван Иванов",
-            avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
-          },
-          text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
-        },
-      ]}
-      isLoading={false}>
-        <Index/>
-      </CommentsBlock>
     </>
   )
 }

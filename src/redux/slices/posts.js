@@ -13,14 +13,14 @@ export const deletePost =
     const { data } = await axios.delete(`/posts/${postId}`);
 
     return data;
-  })
+  });
 
 export const fetchTags =
   createAsyncThunk('posts/getTags', async () => {
   const { data } = await axios.get(`/posts/tags`);
 
   return data;
-})
+});
 
 const initialState = {
   posts: {
@@ -28,6 +28,10 @@ const initialState = {
     status: 'loading',
   },
   tags: {
+    items: [],
+    status: 'loading',
+  },
+  comments: {
     items: [],
     status: 'loading',
   }
