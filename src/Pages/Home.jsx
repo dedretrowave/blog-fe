@@ -64,7 +64,7 @@ export const Home = () => {
         </Grid>
         <Grid xs={4} item>
           {isTagsLoading ? (
-            <TagsBlock items={["Загрузка", "Загрузка", "Загрузка"]} isLoading={true}/>
+            <TagsBlock items={["Loading"]} isLoading={true}/>
           ) : (
             <TagsBlock items={tags.items} isLoading={false}/>
           )}

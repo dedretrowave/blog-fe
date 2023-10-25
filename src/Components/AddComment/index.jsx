@@ -2,7 +2,6 @@ import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchToken, getUser} from "../../redux/slices/user";
 import axios from "../../Utils/axios";
-import {useNavigate} from "react-router-dom";
 
 import { TextField, Avatar, Button } from "@mui/material";
 
@@ -10,7 +9,6 @@ import styles from "./AddComment.module.scss";
 import noavatar from "../../Assets/noavatar.jpg";
 
 export const AddComment = ({postId, onAddComment}) => {
-  const navigateTo = useNavigate();
   const [ text, setText ] = React.useState('');
 
   const dispatch = useDispatch();
@@ -41,10 +39,11 @@ export const AddComment = ({postId, onAddComment}) => {
 
   return (
     <>
+      {isUserLoaded && user.data ? (
       <div className={styles.root}>
         <Avatar
           classes={{root: styles.avatar}}
-          src={isUserLoaded ? user.data.avatarUrl : noavatar}
+          src={isUserLoaded && user.data ? user.data.avatarUrl : noavatar}
         />
         <div className={styles.form}>
           <TextField
@@ -62,6 +61,9 @@ export const AddComment = ({postId, onAddComment}) => {
           >Post</Button>
         </div>
       </div>
+        ) :
+        (<div></div>)
+      }
     </>
   )
 }

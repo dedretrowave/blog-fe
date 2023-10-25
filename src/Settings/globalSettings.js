@@ -1,5 +1,5 @@
 const globalSettings = {
-  BASE_URL: "http://localhost:1488",
+  BASE_URL: `http://${window.location.host}/api`,
   LOCAL_STORAGE_TOKEN_PATH: 'best-blog-auth-token',
 };
 
